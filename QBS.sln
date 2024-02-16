@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QBSocial", "QBSocial\QBSocial.csproj", "{2B1B6E5A-5BC9-45E8-BB4D-D11F1308727D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B1B6E5A-5BC9-45E8-BB4D-D11F1308727D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B1B6E5A-5BC9-45E8-BB4D-D11F1308727D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B1B6E5A-5BC9-45E8-BB4D-D11F1308727D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B1B6E5A-5BC9-45E8-BB4D-D11F1308727D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6624E6FB-D2C8-48C3-A0DD-2A7FC5123735}
+	EndGlobalSection
+EndGlobal
