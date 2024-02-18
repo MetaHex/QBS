@@ -1,3 +1,65 @@
 ﻿@inherits LayoutComponentBase
+@using QBSocial.Theme
 
-@Body
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>    
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+
+            <MudLink Href="/" Underline="Underline.None">
+                <MudText Typo="Typo.h6" Class="ml-4" Style="@($"color:{Colors.Shades.White};")">QBSocial </MudText>
+            </MudLink>
+            <MudSpacer />
+            <AccountDisplay />
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+        <MyNavMenu/>
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Medium">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private ThemeManagerTheme _themeManager = new ThemeManagerTheme();
+    private MudTheme _theme = new();
+    public bool _defaultLayout = true;
+    private bool _isDarkMode = true;
+    public bool _drawerOpen = false;
+    public bool _themeManagerOpen = false;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    void OpenThemeManager(bool value)
+    {
+        _themeManagerOpen = value;
+    }
+
+    void UpdateTheme(ThemeManagerTheme value)
+    {
+        _themeManager = value;
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        _themeManager.Theme = new MudBlazorAdminDashboard();
+        _themeManager.DrawerClipMode = DrawerClipMode.Always;
+        _themeManager.FontFamily = "Montserrat";
+        _themeManager.DefaultBorderRadius = 3;
+    }
+
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    {
+    //new BreadcrumbItem("Personal", href: "#"),
+    new BreadcrumbItem("Home", href: "#"),
+    };
+}

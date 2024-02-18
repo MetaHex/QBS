@@ -1,0 +1,106 @@
+@namespace QBSocial.Components
+
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
+@inject IWebAssemblyHostEnvironment HostEnvironment
+@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
+
+<AuthorizeView>
+    <Authorized>
+        <!--        <button class="nav-link btn btn-link" @onclick="BeginLogout">Log out</button>-->
+        <MudMenu AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" Dense="true" Class="mt-1 ml-4">
+            <ActivatorContent>
+                <!--<MudAvatar Image="images/avatar_jonny.jpg" />-->
+                <MudIcon Icon="@Icons.Material.Filled.AccountCircle" Size="Size.Medium" />
+            </ActivatorContent>
+            <ChildContent>
+                @* <PersonCard Class="mt-n2" />
+                <MudDivider Class="mb-0" />
+                <MudText Typo="Typo.subtitle2" Color="Color.Inherit" Class="ml-4 my-3">Products</MudText>
+                <MudListItem Text="Fermi" Icon="@Icons.Material.Outlined.Dashboard" @onclick="FermiAccount" />
+                <MudDivider Class="my-2" /> *@
+                <MudListItem Text="Account" Icon="@Icons.Material.Outlined.Person" @onclick="EditProfile" />
+                <MudListItem Text="Reset Password" Icon="@Icons.Material.Outlined.Security" @onclick="ResetPassword" />
+                <MudListItem Text="Logout" Icon="@Icons.Material.Outlined.Login" @onclick="BeginLogout" />
+                
+            </ChildContent>
+        </MudMenu>
+    </Authorized>
+    <NotAuthorized>
+        <MudIconButton Icon="@Icons.Material.Outlined.Login" Color="Color.Inherit" Link="/authentication/login" />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code{
+
+
+    private async Task BeginLogout(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        Navigation.NavigateTo("authentication/logout");
+    }
+    private void ResetPassword(MouseEventArgs args)
+    {
+
+        if (HostEnvironment.IsDevelopment())
+        {
+            // local (works)
+            Navigation.NavigateTo("https://metahexb2c.b2clogin.com/metahexb2c.onmicrosoft.com/oauth2/v2.0/authorize?" +
+"client_id=b3162b7f-9ebc-4bb7-b814-ea2980eda821" +
+"&redirect_uri=https%3A%2F%2Flocalhost%3A5001%2Fpasswordreset-callback" +
+"&response_mode=query" +
+"&response_type=id_token" +
+"&scope=openid" +
+$"&nonce={Guid.NewGuid()}" +
+"&state=12345" +
+"&p=B2C_1_PR");
+
+        }
+        else
+        {
+            // production
+            Navigation.NavigateTo("https://metahexb2c.b2clogin.com/metahexb2c.onmicrosoft.com/oauth2/v2.0/authorize?" +
+        "client_id=b3162b7f-9ebc-4bb7-b814-ea2980eda821" +
+        "&redirect_uri=https%3A%2F%2Fmetahex.azurewebsites.net%2Fpasswordreset-callback" +
+        "&response_mode=query" +
+        "&response_type=id_token" +
+        "&scope=openid" +
+        $"&nonce={Guid.NewGuid()}" +
+        "&state=12345" +
+        "&p=B2C_1_PR");
+        }
+
+
+    }
+    private void EditProfile(MouseEventArgs args)
+    {
+        if (HostEnvironment.IsDevelopment())
+        {
+            // local (works)
+            Navigation.NavigateTo("https://metahexb2c.b2clogin.com/metahexb2c.onmicrosoft.com/oauth2/v2.0/authorize?" +
+"client_id=b3162b7f-9ebc-4bb7-b814-ea2980eda821" +
+"&redirect_uri=https%3A%2F%2Flocalhost%3A5001%2Feditprofile-callback" +
+"&response_mode=query" +
+"&response_type=id_token" +
+"&scope=openid" +
+$"&nonce={Guid.NewGuid()}" +
+"&state=12345" +
+"&p=B2C_1_PE");
+        }
+        else
+        {
+            // production
+            Navigation.NavigateTo("https://metahexb2c.b2clogin.com/metahexb2c.onmicrosoft.com/oauth2/v2.0/authorize?" +
+            "client_id=b3162b7f-9ebc-4bb7-b814-ea2980eda821" +
+            "&redirect_uri=https%3A%2F%2Fmetahex.azurewebsites.net%2Feditprofile-callback" +
+            "&response_mode=query" +
+            "&response_type=id_token" +
+            "&scope=openid" +
+            $"&nonce={Guid.NewGuid()}" +
+            "&state=12345" +
+            "&p=B2C_1_PE");  //ftz.azurewebsites.net
+        }
+    }
+}

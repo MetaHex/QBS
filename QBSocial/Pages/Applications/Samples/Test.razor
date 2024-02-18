@@ -1,0 +1,24 @@
+@page "/test"
+@* @inject HttpClient Http *@
+@inject IHttpClientFactory ClientFactory
+
+@if(gotData){
+    <div>got data @something[0] @something[1]</div>
+}
+
+@code{
+    private const string ServiceEndpoint = "https://localhost:5051/test";
+
+    string testString = "abc";
+    bool gotData = false;
+    int[] something;
+    protected override async Task OnInitializedAsync(){
+        var client = ClientFactory.CreateClient("WebAPI.NoAuth");
+
+        something = await client.GetFromJsonAsync<int[]>(ServiceEndpoint);
+        @* something = await Http.GetFromJsonAsync<int[]>(ServiceEndpoint); *@
+
+        gotData = true;
+    }
+
+}
