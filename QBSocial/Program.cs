@@ -13,11 +13,19 @@ string assemblyName = "QBSocial";
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-var authApiUrl = new Uri("https://localhost:5051"); //new Uri(builder.HostEnvironment.BaseAddress).ToString(); 
-var noAuthApiUrl = new Uri("https://localhost:5051"); //new Uri(builder.HostEnvironment.BaseAddress).ToString();
-var domain = builder.Configuration["AzureAdB2C:Domain"];
-var applicationIDURI = builder.Configuration["AzureAdB2C:ApplicationIDURI"];
-var scopes = builder.Configuration["AzureAdB2C:Scopes"];
+string baseAddr = "";
+ if(String.IsNullOrWhiteSpace(builder.Configuration["BaseAddr"])){
+    baseAddr = "https://localhost:5051";
+ } else{
+    baseAddr = builder.Configuration["BaseAddr"]  ;
+ }
+
+var authApiUrl = builder.HostEnvironment.IsDevelopment() ? new Uri("https://localhost:5051") : new Uri(baseAddr) ; //new Uri(builder.HostEnvironment.BaseAddress).ToString(); 
+var noAuthApiUrl = builder.HostEnvironment.IsDevelopment() ? new Uri("https://localhost:5051") : new Uri(baseAddr) ; //new Uri(builder.HostEnvironment.BaseAddress).ToString();
+var domain = builder.HostEnvironment.IsDevelopment() ? builder.Configuration["AzureAdB2C:Domain"] : builder.Configuration["Domain"];
+var applicationIDURI = builder.HostEnvironment.IsDevelopment() ? builder.Configuration["AzureAdB2C:ApplicationIDURI"] : builder.Configuration["ApplicationIDURI"];
+var scopes = builder.HostEnvironment.IsDevelopment() ? builder.Configuration["AzureAdB2C:Scopes"] : builder.Configuration["Scopes"];
+
 
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
@@ -28,13 +36,13 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 // for auth
 builder.Services.AddScoped<CustomAuthorizationMessageHandler>();
-builder.Services.AddHttpClient("WebAPI", client => client.BaseAddress = new Uri("https://localhost:5051"))
+builder.Services.AddHttpClient("WebAPI", client => client.BaseAddress = authApiUrl) //new Uri("https://localhost:5051"))
                .AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 builder.Services.AddTransient(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("WebAPI"));
 
 // for non auth
 builder.Services.AddHttpClient("WebAPI.NoAuth",
-    client => client.BaseAddress = new Uri("https://localhost:5051"));
+    client => client.BaseAddress =  noAuthApiUrl); // new Uri("https://localhost:5051"));
 
 
 builder.Services.AddMsalAuthentication(options =>
@@ -66,7 +74,7 @@ if (builder.HostEnvironment.IsDevelopment())
 }
 else
 {
-    builder.Services.Configure<AppSettings>(options => options.RootUrl = "https://{account}.azurewebsites.net/"); //builder.Configuration["rootUrl"]);
+    builder.Services.Configure<AppSettings>(options => options.RootUrl = "https://gray-forest-053a1151e.4.azurestaticapps.net/"); //builder.Configuration["rootUrl"]);
     builder.Services.Configure<AppSettings>(options => options.StorageUrl = "https://{storageAccount}.blob.core.windows.net/{storageContainer}/");
     builder.Services.Configure<AppSettings>(options => options.IsProd = true);
     //

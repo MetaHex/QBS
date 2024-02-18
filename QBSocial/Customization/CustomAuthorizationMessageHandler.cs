@@ -22,7 +22,7 @@ namespace QBSocial.Customization
             _storage = storage;
             // ConfigureHandler(new[] { navigationManager.BaseUri });
             ConfigureHandler(
-                authorizedUrls: new[] { "https://localhost:5051/" });
+                authorizedUrls: new[] { "https://localhost:5051/", "https://qbss.azurewebsites.net/" });
                 // scopes: new[] { "API.Access" });
         }
         protected async override Task<HttpResponseMessage> SendAsync (HttpRequestMessage request, CancellationToken cancellationToken)
