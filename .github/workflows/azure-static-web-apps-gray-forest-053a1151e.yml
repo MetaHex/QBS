@@ -31,6 +31,13 @@ jobs:
           app_location: "QBSocial" # App source code path
           api_location: "" # Api source code path - optional
           output_location: "wwwroot" # Built app content directory - optional
+        env:
+          Authority: "https://metahexb2c.b2clogin.com/metahexb2c.onmicrosoft.com/B2C_1_SUSI"
+          ClientId: "b3162b7f-9ebc-4bb7-b814-ea2980eda821"
+          Domain: "metahexb2c.onmicrosoft.com"
+          ApplicationIDURI: "b48f9851-c5d4-4d8e-b85b-4948ac090804"
+          Scopes: "API.Access"
+          ValidateAuthority: false
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
