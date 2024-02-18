@@ -22,9 +22,9 @@ string baseAddr = "";
 
 var authApiUrl = builder.HostEnvironment.IsDevelopment() ? new Uri("https://localhost:5051") : new Uri(baseAddr) ; //new Uri(builder.HostEnvironment.BaseAddress).ToString(); 
 var noAuthApiUrl = builder.HostEnvironment.IsDevelopment() ? new Uri("https://localhost:5051") : new Uri(baseAddr) ; //new Uri(builder.HostEnvironment.BaseAddress).ToString();
-var domain = builder.HostEnvironment.IsDevelopment() ? builder.Configuration["AzureAdB2C:Domain"] : builder.Configuration["Domain"];
-var applicationIDURI = builder.HostEnvironment.IsDevelopment() ? builder.Configuration["AzureAdB2C:ApplicationIDURI"] : builder.Configuration["ApplicationIDURI"];
-var scopes = builder.HostEnvironment.IsDevelopment() ? builder.Configuration["AzureAdB2C:Scopes"] : builder.Configuration["Scopes"];
+var domain = builder.HostEnvironment.IsDevelopment() ? builder.Configuration["AzureAdB2C:Domain"] : builder.Configuration["AzureAdB2C:Domain"];
+var applicationIDURI = builder.HostEnvironment.IsDevelopment() ? builder.Configuration["AzureAdB2C:ApplicationIDURI"] : builder.Configuration["AzureAdB2C:ApplicationIDURI"];
+var scopes = builder.HostEnvironment.IsDevelopment() ? builder.Configuration["AzureAdB2C:Scopes"] : builder.Configuration["AzureAdB2C:Scopes"];
 
 
 builder.RootComponents.Add<App>("#app");

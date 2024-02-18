@@ -1,0 +1,32 @@
+When deploying using vscode, azure extension, the deployment is trying to use deploy with git (local or github or azure devops...). In the past, we could build, publish locally and deploy only the zip from zipdeploy. For some reason, when we publish now (some time after net7), we still do build, publish locally and deploy. But on server, it will still try to compile from git on the server. Meaning, the zipdeploy will need the full git instead of the trimmed. This results that the zip will be very large in size. As a reference, a default app scaffold from "dotnet new blazor -o BlazorApp", the zip generated on mac is 1.2GB and on windows 300+MB. 
+
+tldr; a workaround: using zipdeploy: https://learn.microsoft.com/en-us/azure/app-service/deploy-zip?view=azure-devops&tabs=cli#create-a-project-zip-package
+
+Step 1: add web.confg at root of project if you don't have one:
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <system.webServer>
+    <handlers>
+      <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModuleV2" resourceType="Unspecified" />
+    </handlers>
+    <aspNetCore processPath="dotnet" arguments=".\<YOURPROJNAME>.dll" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" />
+  </system.webServer>
+</configuration>
+
+Step 2: build and publish release
+dotnet build -c release
+dotnet publish -c release
+
+Step 3: generate zipdeploy
+-go to bin\release\.net8\publish and run the following based on Bash or PowerShell
+
+# Bash
+zip -r <file-name>.zip .
+
+# PowerShell
+Compress-Archive -Path * -DestinationPath <file-name>.zip
+
+Step 4: 
+In the browser, navigate to https://<app_name>.scm.azurewebsites.net/ZipDeployUI.
+
+Upload the ZIP package you created in [Create a project ZIP package](https://learn.microsoft.com/en-us/azure/app-service/deploy-zip?view=azure-devops&tabs=cli#create-a-project-zip-package) by dragging it to the file explorer area on the web page.

@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/c1f94082-5212-4fdb-b31d-193663110b50/resourceGroups/QBS/providers/Microsoft.Web/sites/qbsocial",
+    "appService.deploySubpath": "QBSocial"
+}
