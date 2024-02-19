@@ -13,15 +13,13 @@ string assemblyName = "QBSocial";
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-string baseAddr = "";
+string baseAddr = builder.Configuration["BaseAddr"];
  if(String.IsNullOrWhiteSpace(builder.Configuration["BaseAddr"])){
     baseAddr = "https://localhost:5051";
- } else{
-    baseAddr = builder.Configuration["BaseAddr"]  ;
- }
+ } 
 
-var authApiUrl = builder.HostEnvironment.IsDevelopment() ? new Uri("https://localhost:5051") : new Uri(baseAddr) ; //new Uri(builder.HostEnvironment.BaseAddress).ToString(); 
-var noAuthApiUrl = builder.HostEnvironment.IsDevelopment() ? new Uri("https://localhost:5051") : new Uri(baseAddr) ; //new Uri(builder.HostEnvironment.BaseAddress).ToString();
+var authApiUrl = new Uri(baseAddr) ; //builder.HostEnvironment.IsDevelopment() ? new Uri("https://localhost:5051") : new Uri(baseAddr) ; //new Uri(builder.HostEnvironment.BaseAddress).ToString(); 
+var noAuthApiUrl = new Uri(baseAddr) ; //builder.HostEnvironment.IsDevelopment() ? new Uri("https://localhost:5051") : new Uri(baseAddr) ; //new Uri(builder.HostEnvironment.BaseAddress).ToString();
 var domain = builder.HostEnvironment.IsDevelopment() ? builder.Configuration["AzureAdB2C:Domain"] : builder.Configuration["AzureAdB2C:Domain"];
 var applicationIDURI = builder.HostEnvironment.IsDevelopment() ? builder.Configuration["AzureAdB2C:ApplicationIDURI"] : builder.Configuration["AzureAdB2C:ApplicationIDURI"];
 var scopes = builder.HostEnvironment.IsDevelopment() ? builder.Configuration["AzureAdB2C:Scopes"] : builder.Configuration["AzureAdB2C:Scopes"];
